@@ -11,7 +11,7 @@ This piece of middleware will allow you you to handle incoming activities of spe
 To use the middleware, add it to the pipeline:
 
 ```cs
-    middleware.Add(new HandleActivityTypeMiddleware(ActivityTypes.ConversationUpdate, async (context, next) =>
+middleware.Add(new HandleActivityTypeMiddleware(ActivityTypes.ConversationUpdate, async (context, next) =>
                     {
                         // here you can do whatever you want to respond to the activity
                         await context.SendActivity("Hi! Welcome. I am the bot :)");
@@ -25,5 +25,5 @@ To use the middleware, add it to the pipeline:
 You can also use the middleware to simply filter out activity types you do not wish your bot to handle at all
 
 ```cs
-    middleware.Add(new HandleActivityTypeMiddleware(ActivityTypes.ConversationUpdate, async (context, next) => { }));
+middleware.Add(new HandleActivityTypeMiddleware(ActivityTypes.ConversationUpdate, async (context, next) => { }));
 ```
