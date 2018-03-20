@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>GaryPretty.Bot.Builder.Extensions.Middleware</id>
+    <version>$version$</version>
+    <title>Gary Pretty - Bot Builder v4 Extensions - Middleware</title>
+    <authors>Gary Pretty</authors>
+    <owners>Gary Pretty</owners>
+    <projectUrl>https://github.com/garypretty/botbuilder-dotnet-extensions</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A collection of Middleware components for Microsoft Bot Builder v4 SDK</description>
+    <copyright>Copyright 2018</copyright>
+    <tags>botframework, botbuilder, middleware, bot, microsoft</tags>
+  </metadata>
+</package>
