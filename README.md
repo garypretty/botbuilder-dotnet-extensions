@@ -4,7 +4,7 @@ A collection of extensions for use when building bots with the Bot Builder v4 SD
 
 ## Installation
 
-The extensions are available via (https://www.nuget.org/packages/GaryPretty.Bot.Builder.Extensions.Middleware/)[NuGet].  Install them into your project using the following command in the package manager;
+The extensions are available via [NuGet](https://www.nuget.org/packages/GaryPretty.Bot.Builder.Extensions.Middleware/).  Install them into your project using the following command in the package manager;
 
 ```
     PM> Install-Package GaryPretty.Bot.Builder.Extensions.Middleware
