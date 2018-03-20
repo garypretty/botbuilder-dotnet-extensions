@@ -18,7 +18,7 @@ middleware.Add(new HandleActivityTypeMiddleware(ActivityTypes.ConversationUpdate
 
                         // If you want to continue routing through the pipeline to additional
                         // middleware and to the bot itself then call the following line.
-                        await next().CongifureAwait(false);
+                        await next();
                     }));
 ```
 
