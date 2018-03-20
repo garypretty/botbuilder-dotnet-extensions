@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 
 namespace GaryPretty.Bot.Builder.Extensions.Middleware
 {
@@ -14,7 +15,7 @@ namespace GaryPretty.Bot.Builder.Extensions.Middleware
         /// <summary>
         /// Handler to call when a matching Activity type is received
         /// </summary>
-        private readonly ActivityTypeHandler _activityTypeHandler;
+        private readonly Func<IBotContext, MiddlewareSet.NextDelegate, Task> _handler;
 
         /// <summary>
         /// Allows you to respond to particular Activity types within the middleware pipeline. 
@@ -22,13 +23,13 @@ namespace GaryPretty.Bot.Builder.Extensions.Middleware
         /// </summary>
         /// <param name="activityType">The type of Activity the middleware should handle. Activity types can be found in the ActivityTypes enum.</param>
         /// <param name="handler">Handler to execute when the incoming type of activity is a match.</param>
-        public HandleActivityTypeMiddleware(string activityType, ActivityTypeHandler handler)
+        public HandleActivityTypeMiddleware(string activityType, Func<IBotContext, MiddlewareSet.NextDelegate, Task> handler)
         {
             if (string.IsNullOrEmpty(activityType))
                 throw new ArgumentNullException(nameof(activityType));
 
             _activityType = activityType;
-            _activityTypeHandler = handler;
+            _handler = handler;
         }
 
         public delegate Task ActivityTypeHandler(IBotContext context, MiddlewareSet.NextDelegate next);
@@ -39,7 +40,7 @@ namespace GaryPretty.Bot.Builder.Extensions.Middleware
             {
                 // if the incoming Activity type matches the type of activity we are checking for then
                 // invoke our handler
-                await _activityTypeHandler.Invoke(context, next).ConfigureAwait(false);
+                await _handler.Invoke(context, next).ConfigureAwait(false);
             }
             else
             {
