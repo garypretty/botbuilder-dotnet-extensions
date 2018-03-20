@@ -9,7 +9,7 @@
     <PackageLicenseUrl>https://github.com/garypretty/botbuilder-dotnet-extensions/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/garypretty/botbuilder-dotnet-extensions/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/garypretty/botbuilder-dotnet-extensions/</RepositoryUrl>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>Middleware extensions for Bot Builder v4 SDK.</Description>
   </PropertyGroup>
 
