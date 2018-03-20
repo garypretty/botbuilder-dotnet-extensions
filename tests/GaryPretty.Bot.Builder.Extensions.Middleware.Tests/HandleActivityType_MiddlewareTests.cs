@@ -89,29 +89,6 @@ namespace GaryPretty.Bot.Builder.Extensions.Middleware.Tests
 
         [TestMethod]
         [TestCategory("Middleware")]
-        public async Task ActivityFilter_TestMiddleware_ComposableMiddleware()
-        {
-            TestAdapter adapter = new TestAdapter()
-                .Use(new HandleActivityTypeMiddleware(ActivityTypes.Message, 
-                    new HandleActivityTypeMiddleware(ActivityTypes.Message, async (context, next) =>
-                {
-                    await context.SendActivity("Second Activity Middleware Called");
-                    await next();
-                })));
-
-
-            await new TestFlow(adapter, async (context) =>
-                {
-                    await context.SendActivity("Follow up message from bot");
-                    await Task.CompletedTask;
-                })
-                .Send("foo")
-                .AssertReply("Second Activity Middleware Called")
-                .StartTest();
-        }
-
-        [TestMethod]
-        [TestCategory("Middleware")]
         public async Task ActivityFilter_TestMiddleware_NullActivityType()
         {
             try
