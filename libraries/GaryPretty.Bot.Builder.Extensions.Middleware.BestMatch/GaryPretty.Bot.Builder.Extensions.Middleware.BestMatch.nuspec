@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>GaryPretty.Bot.Builder.Extensions.Middleware.BestMatch</id>
+    <version>1.0</version>
+    <title>GaryPretty.Bot.Builder.Extensions.Middleware.BestMatch</title>
+    <authors>Gary Pretty</authors>
+    <owners>Gary Pretty</owners>
+    <projectUrl>https://github.com/garypretty/botbuilder-dotnet-extensions</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A middleware component for Microsoft Bot Builder v4 to allow that allows you to match a message activity received 
+	from a user against a list of strings and then carry out an appropriate action. Matching of the text on the activity does not have 
+	to be exact and you can set the threshold as to how closely the message should match with an item in the list.</description>
+    <copyright>Copyright 2018</copyright>
+    <tags>botframework, botbuilder, middleware, bot, microsoft, bestmatch</tags>
+  </metadata>
+</package>
