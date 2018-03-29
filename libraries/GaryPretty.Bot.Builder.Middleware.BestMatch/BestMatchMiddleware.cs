@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 
-namespace GaryPretty.Bot.Builder.Extensions.Middleware.BestMatch
+namespace GaryPretty.Bot.Builder.Middleware.BestMatch
 {
     public class BestMatchMiddleware : IMiddleware
     {

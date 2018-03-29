@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using GaryPretty.Bot.Builder.Extensions.Middleware.HandleActivityType;
+using GaryPretty.Bot.Builder.Middleware.HandleActivityType;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

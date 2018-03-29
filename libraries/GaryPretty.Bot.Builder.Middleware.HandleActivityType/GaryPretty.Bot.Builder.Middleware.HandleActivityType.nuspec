@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>GaryPretty.Bot.Builder.Extensions.Middleware.HandleActivityType</id>
+    <id>GaryPretty.Bot.Builder.Middleware.HandleActivityType</id>
     <version>1.0</version>
-    <title>GaryPretty.Bot.Builder.Extensions.Middleware.HandleActivityType</title>
+    <title>GaryPretty.Bot.Builder.Middleware.HandleActivityType</title>
     <authors>Gary Pretty</authors>
     <owners>Gary Pretty</owners>
     <projectUrl>https://github.com/garypretty/botbuilder-dotnet-extensions</projectUrl>
