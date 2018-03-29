@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Chronic;
 
-namespace GaryPretty.Bot.Builder.Recognizers.FuzzyRecognizer
+namespace GaryPretty.Bot.Builder.Recognizers.Fuzzy
 {
     public class FuzzyRecognizer
     {
@@ -23,10 +23,10 @@ namespace GaryPretty.Bot.Builder.Recognizers.FuzzyRecognizer
             if (choices == null)
                 throw new ArgumentNullException(nameof(choices));
 
-            return await FindAllMatches(choices, utterance, _fuzzyRecognizerOptions);
+            return FindAllMatches(choices, utterance, _fuzzyRecognizerOptions);
         }
 
-        private async static Task<FuzzyRecognizerResult> FindAllMatches(IEnumerable<string> choices, string utterance, FuzzyRecognizerOptions options)
+        private static FuzzyRecognizerResult FindAllMatches(IEnumerable<string> choices, string utterance, FuzzyRecognizerOptions options)
         {
             var result = new FuzzyRecognizerResult()
             {
@@ -38,11 +38,19 @@ namespace GaryPretty.Bot.Builder.Recognizers.FuzzyRecognizer
             if (!choicesList.Any())
                 return result;
 
-            var utteranceToCheck = options.IgnoreNonAlphanumeric
-                ? utterance.ReplaceAll(@"[^A-Za-z0-9 ]", string.Empty).Trim()
-                : utterance;
+            string utteranceToCheck = utterance;
 
-            var tokens = utterance.Split(' ');
+            if (options.IgnoreCase)
+            {
+                utteranceToCheck = utteranceToCheck.ToLower();
+                choicesList = choicesList.Select(x => x.ToLower()).ToList();
+            }
+
+            if (options.IgnoreNonAlphanumeric)
+            {
+                utteranceToCheck = Regex.Replace(utterance, "[^a-zA-Z0-9_. ]+", "", RegexOptions.Compiled).Trim();
+                choicesList = choicesList.Select(x => Regex.Replace(x, "[^a-zA-Z0-9_. ]+", "", RegexOptions.Compiled)).ToList();
+            }
 
             foreach (var choice in choicesList)
             {
@@ -51,30 +59,12 @@ namespace GaryPretty.Bot.Builder.Recognizers.FuzzyRecognizer
                 var choiceValue = choice.Trim();
 
                 if (options.IgnoreNonAlphanumeric)
-                    choiceValue.ReplaceAll(@"[^A-Za-z0-9 ]", string.Empty);
+                    Regex.Replace(choiceValue, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
 
-                if (choiceValue.IndexOf(utteranceToCheck, options.IgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) >= 0)
-                {
-                    score = (double)decimal.Divide((decimal)utteranceToCheck.Length, (decimal)choiceValue.Length);
-                }
-                else if (utteranceToCheck.IndexOf(choiceValue, StringComparison.Ordinal) >= 0)
-                {
-                    score = Math.Min(0.5 + (choiceValue.Length / utteranceToCheck.Length), 0.9);
-                }
-                else
-                {
-                    foreach (var token in tokens)
-                    {
-                        var matched = string.Empty;
-
-                        if (choiceValue.IndexOf(token, options.IgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) >= 0)
-                        {
-                            matched += token;
-                        }
-
-                        score = (double)decimal.Divide((decimal)matched.Length, (decimal)choiceValue.Length);
-                    }
-                }
+                var editDistance = EditDistance(choiceValue, utteranceToCheck);
+                var maxLength = (double)Math.Max(utteranceToCheck.Length, choiceValue.Length);
+                var matchResult = maxLength - editDistance;
+                score = matchResult / maxLength; 
 
                 if (score >= options.Threshold)
                 {
@@ -82,7 +72,64 @@ namespace GaryPretty.Bot.Builder.Recognizers.FuzzyRecognizer
                 }
             }
 
+            result.Matches = result.Matches.OrderByDescending(m => m.Score).ToList();
+
             return result;
+        }
+
+        /// <summary>
+        /// Code for calculating distance from Stephen Toub 
+        /// https://blogs.msdn.microsoft.com/toub/2006/05/05/generic-levenshtein-edit-distance-with-c/
+        /// </summary>
+        public static int EditDistance<T>(IEnumerable<T> x, IEnumerable<T> y) where T : IEquatable<T>
+        {
+            // Validate parameters
+            if (x == null) throw new ArgumentNullException("x");
+            if (y == null) throw new ArgumentNullException("y");
+
+            // Convert the parameters into IList instances
+            // in order to obtain indexing capabilities
+            IList<T> first = x as IList<T> ?? new List<T>(x);
+            IList<T> second = y as IList<T> ?? new List<T>(y);
+            // Get the length of both.  If either is 0, return
+            // the length of the other, since that number of insertions
+            // would be required.
+            int n = first.Count, m = second.Count;
+            if (n == 0) return m;
+            if (m == 0) return n;
+            // Rather than maintain an entire matrix (which would require O(n*m) space),
+            // just store the current row and the next row, each of which has a length m+1,
+            // so just O(m) space. Initialize the current row.
+            int curRow = 0, nextRow = 1;
+            int[][] rows = new int[][] { new int[m + 1], new int[m + 1] };
+            for (int j = 0; j <= m; ++j) rows[curRow][j] = j;
+            // For each virtual row (since we only have physical storage for two)
+            for (int i = 1; i <= n; ++i)
+            {
+                // Fill in the values in the row
+                rows[nextRow][0] = i;
+                for (int j = 1; j <= m; ++j)
+                {
+                    int dist1 = rows[curRow][j] + 1;
+                    int dist2 = rows[nextRow][j - 1] + 1;
+                    int dist3 = rows[curRow][j - 1] +
+                        (first[i - 1].Equals(second[j - 1]) ? 0 : 1);
+                    rows[nextRow][j] = Math.Min(dist1, Math.Min(dist2, dist3));
+                }
+                // Swap the current and next rows
+                if (curRow == 0)
+                {
+                    curRow = 1;
+                    nextRow = 0;
+                }
+                else
+                {
+                    curRow = 0;
+                    nextRow = 1;
+                }
+            }
+            // Return the computed edit distance
+            return rows[curRow][m];
         }
     }
 
