@@ -17,7 +17,7 @@ namespace GaryPretty.Bot.Builder.Recognizers.Tests
             {
                 "Jon Henderson",
                 "Tina Henderson",
-                "Nicole Waker",
+                "Nicole Walker",
                 "Robin Orwoll",
                 "Greg Walker",
                 "Robin Orwoll",
@@ -29,7 +29,7 @@ namespace GaryPretty.Bot.Builder.Recognizers.Tests
             var result = await fuzzyRecognizer.Recognize(choices, "Nicole Waker");
 
             Assert.IsNotNull(result, "Recognizer result should not be null");
-            Assert.IsTrue(result.Matches.First().Choice == "Nicole Waker");
+            Assert.IsTrue(result.Matches.First().Choice == "Nicole Walker");
             Assert.AreEqual(result.Matches.Count, 1, "Incorrect number of matches");
         }
 
@@ -51,8 +51,9 @@ namespace GaryPretty.Bot.Builder.Recognizers.Tests
             var result = await fuzzyRecognizer.Recognize(choices, "Nicole Waker");
 
             Assert.IsNotNull(result, "Recognizer result should not be null");
-            Assert.IsTrue(result.Matches.First().Choice == "Nicole Waker");
+            Assert.IsTrue(result.Matches.First().Choice == "N&i$co^le Wa*ker");
             Assert.AreEqual(result.Matches.Count, 1, "Incorrect number of matches");
+            Assert.IsTrue(result.Matches.First().Score > 0.9, "Incorrect score");
         }
 
         [TestMethod]
@@ -73,7 +74,7 @@ namespace GaryPretty.Bot.Builder.Recognizers.Tests
             var result = await fuzzyRecognizer.Recognize(choices, "Nicole Waker");
 
             Assert.IsNotNull(result, "Recognizer result should not be null");
-            Assert.AreEqual(result.Matches.Count, 0, "Incorrect number of matches");
+            Assert.AreEqual(result.Matches.First().Score, 0.75, "Incorrect number of matches");
         }
 
         [TestMethod]

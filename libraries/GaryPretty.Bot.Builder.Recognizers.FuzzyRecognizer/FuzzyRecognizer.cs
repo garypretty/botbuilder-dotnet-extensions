@@ -43,13 +43,11 @@ namespace GaryPretty.Bot.Builder.Recognizers.Fuzzy
             if (options.IgnoreCase)
             {
                 utteranceToCheck = utteranceToCheck.ToLower();
-                choicesList = choicesList.Select(x => x.ToLower()).ToList();
             }
 
             if (options.IgnoreNonAlphanumeric)
             {
-                utteranceToCheck = Regex.Replace(utterance, "[^a-zA-Z0-9_. ]+", "", RegexOptions.Compiled).Trim();
-                choicesList = choicesList.Select(x => Regex.Replace(x, "[^a-zA-Z0-9_. ]+", "", RegexOptions.Compiled)).ToList();
+                utteranceToCheck = Regex.Replace(utteranceToCheck, "[^a-zA-Z0-9_. ]+", "", RegexOptions.Compiled).Trim();
             }
 
             foreach (var choice in choicesList)
@@ -59,7 +57,10 @@ namespace GaryPretty.Bot.Builder.Recognizers.Fuzzy
                 var choiceValue = choice.Trim();
 
                 if (options.IgnoreNonAlphanumeric)
-                    Regex.Replace(choiceValue, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
+                    choiceValue = Regex.Replace(choiceValue, "[^a-zA-Z0-9_. ]+", "", RegexOptions.Compiled);
+
+                if (options.IgnoreCase)
+                    choiceValue = choiceValue.ToLower();
 
                 var editDistance = EditDistance(choiceValue, utteranceToCheck);
                 var maxLength = (double)Math.Max(utteranceToCheck.Length, choiceValue.Length);
@@ -68,7 +69,7 @@ namespace GaryPretty.Bot.Builder.Recognizers.Fuzzy
 
                 if (score >= options.Threshold)
                 {
-                    result.Matches.Add(new FuzzyMatch { Choice = choiceValue, Score = score });
+                    result.Matches.Add(new FuzzyMatch { Choice = choice, Score = score });
                 }
             }
 
