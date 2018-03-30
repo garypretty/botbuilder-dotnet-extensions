@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>GaryPretty.Bot.Builder.Extensions.Middleware.BestMatch</id>
+    <id>GaryPretty.Bot.Builder.Middleware.BestMatch</id>
     <version>1.0</version>
-    <title>GaryPretty.Bot.Builder.Extensions.Middleware.BestMatch</title>
+    <title>GaryPretty.Bot.Builder.Middleware.BestMatch</title>
     <authors>Gary Pretty</authors>
     <owners>Gary Pretty</owners>
     <projectUrl>https://github.com/garypretty/botbuilder-dotnet-extensions</projectUrl>

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 
-namespace GaryPretty.Bot.Builder.Extensions.Middleware.HandleActivityType
+namespace GaryPretty.Bot.Builder.Middleware.HandleActivityType
 {
     public class HandleActivityTypeMiddleware : IMiddleware
     {
