@@ -41,3 +41,7 @@ middleware.Add(new HandleActivityTypeMiddleware(ActivityTypes.ConversationUpdate
 
 ### Fuzzy Matching Recognizer
 
+Available via [NuGet](https://www.nuget.org/packages/GaryPretty.Bot.Builder.Recognizers.FuzzyRecognizer/).  Install them into your project using the following command in the package manager;
+```
+    PM> Install-Package GaryPretty.Bot.Builder.Recognizers.FuzzyRecognizer
+```
