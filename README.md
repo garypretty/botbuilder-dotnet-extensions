@@ -12,9 +12,9 @@ Each extension, such as middleware or recognizers, is available individually fro
 
 This piece of middleware will allow you you to handle incoming activities of specific types, such as 'conversationUpdate' or 'contactRelationUpdate'.
 
-Available via [NuGet](https://www.nuget.org/packages/GaryPretty.Bot.Builder.Extensions.Middleware/).  Install them into your project using the following command in the package manager;
+Available via [NuGet](https://www.nuget.org/packages/GaryPretty.Bot.Builder.Middleware.HandleActivityType/).  Install them into your project using the following command in the package manager;
 ```
-    PM> Install-Package GaryPretty.Bot.Builder.Extensions.Middleware
+    PM> Install-Package GaryPretty.Bot.Builder.Middleware.HandleActivityType
 ```
 
 To use the middleware, add it to the pipeline:
@@ -38,4 +38,6 @@ middleware.Add(new HandleActivityTypeMiddleware(ActivityTypes.ConversationUpdate
 ```
 
 ## Recognizers
+
+### Fuzzy Matching Recognizer
 
