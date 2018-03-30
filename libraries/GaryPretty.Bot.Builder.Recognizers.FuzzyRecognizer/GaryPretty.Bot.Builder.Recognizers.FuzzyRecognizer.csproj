@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/garypretty/botbuilder-dotnet-extensions/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/garypretty/botbuilder-dotnet-extensions/</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Middleware extensions for Bot Builder v4 SDK.</Description>
+    <Description>A fuzzy matching recognizer to allow for matching a string against one or more strings.</Description>
   </PropertyGroup>
 
   <ItemGroup>
