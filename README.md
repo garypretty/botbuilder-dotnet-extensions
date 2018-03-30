@@ -4,17 +4,18 @@ A collection of extensions for use when building bots with the Bot Builder v4 SD
 
 ## Installation
 
-The extensions are available via [NuGet](https://www.nuget.org/packages/GaryPretty.Bot.Builder.Extensions.Middleware/).  Install them into your project using the following command in the package manager;
-
-```
-    PM> Install-Package GaryPretty.Bot.Builder.Extensions.Middleware
-```
+Each extension, such as middleware or recognizers, is available individually from NuGet. See each individual component description for installation details and links.
 
 ## Middleware
 
 ### Handle Activity Type Middleware
 
 This piece of middleware will allow you you to handle incoming activities of specific types, such as 'conversationUpdate' or 'contactRelationUpdate'.
+
+Available via [NuGet](https://www.nuget.org/packages/GaryPretty.Bot.Builder.Extensions.Middleware/).  Install them into your project using the following command in the package manager;
+```
+    PM> Install-Package GaryPretty.Bot.Builder.Extensions.Middleware
+```
 
 To use the middleware, add it to the pipeline:
 
@@ -35,3 +36,6 @@ You can also use the middleware to simply filter out activity types you do not w
 ```cs
 middleware.Add(new HandleActivityTypeMiddleware(ActivityTypes.ConversationUpdate, async (context, next) => { }));
 ```
+
+## Recognizers
+
