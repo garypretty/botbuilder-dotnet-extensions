@@ -98,5 +98,28 @@ namespace GaryPretty.Bot.Builder.Recognizers.Tests
             Assert.AreEqual(result.Matches.Count, 2, "Incorrect number of matches");
             Assert.AreEqual(result.Matches.Count(m => m.Score == 1), 2);
         }
+
+        [TestMethod]
+        [TestCategory("Recognizers")]
+        public async Task FuzzyRecognizer_TestIgnoreCase_False()
+        {
+            var choices = new List<string>()
+            {
+                "GARY PRETTY",
+                "Gary Pretty"
+            };
+
+            var fuzzyRecognizer = new FuzzyRecognizer(new FuzzyRecognizerOptions()
+            {
+                IgnoreCase = false
+            });
+
+            var result = await fuzzyRecognizer.Recognize(choices, "Gary Pretty");
+
+            Assert.IsNotNull(result, "Recognizer result should not be null");
+            Assert.AreEqual(result.Matches.Count, 1, "Incorrect number of matches");
+            Assert.AreEqual(result.Matches.First().Choice, "Gary Pretty", "Incorrect number of matches");
+            Assert.AreEqual(result.Matches.Count(m => m.Score == 1), 1);
+        }
     }
 }
