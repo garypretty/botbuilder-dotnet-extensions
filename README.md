@@ -10,9 +10,9 @@ Each extension, such as middleware or recognizers, is available individually fro
 
 The following pieces of middleware are currently available;
 
-* [Handle Activity Type Middleware](/tree/master/libraries/GaryPretty.Bot.Builder.Middleware.HandleActivityType) - Middleware component which allows you to respond to different types of incoming activities, e.g. send a greeting, or even filter out activities you do not care about altogether.
+* [Handle Activity Type Middleware](https://github.com/garypretty/botbuilder-dotnet-extensions/tree/master/libraries/GaryPretty.Bot.Builder.Middleware.HandleActivityType) - Middleware component which allows you to respond to different types of incoming activities, e.g. send a greeting, or even filter out activities you do not care about altogether.
 
 
 ## Recognizers
 
-* [Fuzzy Matching Recognizer](/tree/master/libraries/GaryPretty.Bot.Builder.Recognizers/FuzzyRecognizer) - A recognizer that allows you to use fuzzy matching to compare strings.  Useful in situations such as when a user make a spelling mistake etc. When the recognizer is used a list of matches, along with confidence scores, are returned.
+* [Fuzzy Matching Recognizer](https://github.com/garypretty/botbuilder-dotnet-extensions/tree/master/libraries/GaryPretty.Bot.Builder.Recognizers/FuzzyRecognizer) - A recognizer that allows you to use fuzzy matching to compare strings.  Useful in situations such as when a user make a spelling mistake etc. When the recognizer is used a list of matches, along with confidence scores, are returned.

@@ -1,6 +1,6 @@
 ## Handle Activity Type Middleware
 
-This is part of the [Bot Builder v4 Extensions](../../) project which contains various pieces pf middleware, recognizers and other components for use with the Bot Builder .NET SDK v4.
+This is part of the [Bot Builder v4 Extensions](https://github.com/garypretty/botbuilder-dotnet-extensions/) project which contains various pieces pf middleware, recognizers and other components for use with the Bot Builder .NET SDK v4.
 
 This piece of middleware will allow you you to handle incoming activities of specific types, such as 'conversationUpdate' or 'contactRelationUpdate'.
 
