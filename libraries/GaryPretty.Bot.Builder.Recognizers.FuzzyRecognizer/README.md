@@ -33,7 +33,7 @@ To use the recognizer, you can simply pass in a list of possible choices (the li
 The above code will return a result object with 2 matches, in descending order by match score;
 
 * Gary Pretty - score: 0.90
-* Garry Pretty - score: 0.66
+* Garry Pretti - score: 0.66
 
 You can also, optionally, pass in a FuzzyRecognizerOptions object when creating your instance of the recognizer to alter some of the default behaviour.
 
