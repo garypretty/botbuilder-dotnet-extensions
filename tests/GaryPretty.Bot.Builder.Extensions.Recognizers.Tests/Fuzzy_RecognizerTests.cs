@@ -15,22 +15,22 @@ namespace GaryPretty.Bot.Builder.Recognizers.Tests
         {
             var choices = new List<string>()
             {
-                "Jon Henderson",
-                "Tina Henderson",
-                "Nicole Walker",
-                "Robin Orwoll",
-                "Greg Walker",
-                "Robin Orwoll",
-                "Greg Orwoll"
+                "Phil Coulson",
+                "Peggy Carter",
+                "Gary Pretty",
+                "Peter Parker",
+                "Tony Stark",
+                "Bruce Banner",
+                "Garry Pritti"
             };
 
             var fuzzyRecognizer = new FuzzyRecognizer();
 
-            var result = await fuzzyRecognizer.Recognize(choices, "Nicole Waker");
+            var result = await fuzzyRecognizer.Recognize(choices, "Gary Prety");
 
             Assert.IsNotNull(result, "Recognizer result should not be null");
-            Assert.IsTrue(result.Matches.First().Choice == "Nicole Walker");
-            Assert.AreEqual(result.Matches.Count, 1, "Incorrect number of matches");
+            Assert.IsTrue(result.Matches.First().Choice == "Gary Pretty");
+            Assert.AreEqual(result.Matches.Count, 2, "Incorrect number of matches");
         }
 
         [TestMethod]
