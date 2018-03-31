@@ -15,4 +15,4 @@ The following pieces of middleware are currently available;
 
 ## Recognizers
 
-* [Fuzzy Matching Recognizer](https://github.com/garypretty/botbuilder-dotnet-extensions/tree/master/libraries/GaryPretty.Bot.Builder.Recognizers/FuzzyRecognizer) - A recognizer that allows you to use fuzzy matching to compare strings.  Useful in situations such as when a user make a spelling mistake etc. When the recognizer is used a list of matches, along with confidence scores, are returned.
+* [Fuzzy Matching Recognizer](https://github.com/garypretty/botbuilder-dotnet-extensions/tree/master/libraries/GaryPretty.Bot.Builder.Recognizers.FuzzyRecognizer) - A recognizer that allows you to use fuzzy matching to compare strings.  Useful in situations such as when a user make a spelling mistake etc. When the recognizer is used a list of matches, along with confidence scores, are returned.
