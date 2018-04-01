@@ -157,7 +157,7 @@ namespace GaryPretty.Bot.Builder.Middleware.BestMatch
 
         public virtual async Task NoMatchHandler(IBotContext context, string messageText, MiddlewareSet.NextDelegate next)
         {
-            throw new Exception("No best match found and NoMatchHandler method not overridden");
+            await next();
         }
 
         internal class StringMatch
