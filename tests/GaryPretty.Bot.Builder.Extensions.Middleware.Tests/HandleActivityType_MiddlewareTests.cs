@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GaryPretty.Bot.Builder.Extensions.Middleware.Tests
+namespace GaryPretty.Bot.Builder.Middleware.Tests
 {
     [TestClass]
     public class HandleActivityType_MiddlewareTests

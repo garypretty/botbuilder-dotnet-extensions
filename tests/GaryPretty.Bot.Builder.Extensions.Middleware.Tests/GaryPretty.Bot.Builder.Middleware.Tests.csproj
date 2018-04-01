@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\libraries\GaryPretty.Bot.Builder.Middleware.BestMatch\GaryPretty.Bot.Builder.Middleware.BestMatch.csproj" />
     <ProjectReference Include="..\..\libraries\GaryPretty.Bot.Builder.Middleware.HandleActivityType\GaryPretty.Bot.Builder.Middleware.HandleActivityType.csproj" />
   </ItemGroup>
 

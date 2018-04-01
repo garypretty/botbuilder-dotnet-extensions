@@ -68,7 +68,8 @@ namespace GaryPretty.Bot.Builder.Recognizers.Tests
 
             var fuzzyRecognizer = new FuzzyRecognizer(new FuzzyRecognizerOptions()
             {
-                IgnoreNonAlphanumeric = false
+                IgnoreNonAlphanumeric = false,
+
             });
 
             var result = await fuzzyRecognizer.Recognize(choices, "Nicole Waker");
