@@ -13,15 +13,15 @@ namespace GaryPretty.Bot.Builder.Middleware.BestMatch
     {
         protected Dictionary<BestMatchAttribute, BestMatchHandler> HandlerByBestMatchLists;
 
-        public async Task OnProcessRequest(IBotContext context, MiddlewareSet.NextDelegate next)
+        public async Task OnTurn(ITurnContext context, MiddlewareSet.NextDelegate next)
         {
-            if (context.Request.Type == ActivityTypes.Message)
+            if (context.Activity.Type == ActivityTypes.Message)
             {
-                await HandleMessage(context, context.Request.Text, next);
+                await HandleMessage(context, context.Activity.Text, next);
             }
         }
 
-        private async Task HandleMessage(IBotContext context, string messageText, MiddlewareSet.NextDelegate next)
+        private async Task HandleMessage(ITurnContext context, string messageText, MiddlewareSet.NextDelegate next)
         {
             if (HandlerByBestMatchLists == null)
             {
@@ -155,7 +155,7 @@ namespace GaryPretty.Bot.Builder.Middleware.BestMatch
             }
         }
 
-        public virtual async Task NoMatchHandler(IBotContext context, string messageText, MiddlewareSet.NextDelegate next)
+        public virtual async Task NoMatchHandler(ITurnContext context, string messageText, MiddlewareSet.NextDelegate next)
         {
             await next();
         }
@@ -210,5 +210,5 @@ namespace GaryPretty.Bot.Builder.Middleware.BestMatch
         }
     }
 
-    public delegate Task BestMatchHandler(IBotContext context, string messageText, MiddlewareSet.NextDelegate next);
+    public delegate Task BestMatchHandler(ITurnContext context, string messageText, MiddlewareSet.NextDelegate next);
 }

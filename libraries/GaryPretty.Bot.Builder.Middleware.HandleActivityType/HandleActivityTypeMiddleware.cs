@@ -14,7 +14,7 @@ namespace GaryPretty.Bot.Builder.Middleware.HandleActivityType
         /// <summary>
         /// Handler to call when a matching Activity type is received
         /// </summary>
-        private readonly Func<IBotContext, MiddlewareSet.NextDelegate, Task> _handler;
+        private readonly Func<ITurnContext, MiddlewareSet.NextDelegate, Task> _handler;
 
         /// <summary>
         /// Allows you to respond to particular Activity types within the middleware pipeline. 
@@ -22,7 +22,7 @@ namespace GaryPretty.Bot.Builder.Middleware.HandleActivityType
         /// </summary>
         /// <param name="activityType">The type of Activity the middleware should handle. Activity types can be found in the ActivityTypes enum.</param>
         /// <param name="handler">Handler to execute when the incoming type of activity is a match.</param>
-        public HandleActivityTypeMiddleware(string activityType, Func<IBotContext, MiddlewareSet.NextDelegate, Task> handler)
+        public HandleActivityTypeMiddleware(string activityType, Func<ITurnContext, MiddlewareSet.NextDelegate, Task> handler)
         {
             if (string.IsNullOrEmpty(activityType))
                 throw new ArgumentNullException(nameof(activityType));
@@ -31,11 +31,11 @@ namespace GaryPretty.Bot.Builder.Middleware.HandleActivityType
             _handler = handler;
         }
 
-        public delegate Task ActivityTypeHandler(IBotContext context, MiddlewareSet.NextDelegate next);
+        public delegate Task ActivityTypeHandler(ITurnContext context, MiddlewareSet.NextDelegate next);
 
-        public async Task OnProcessRequest(IBotContext context, MiddlewareSet.NextDelegate next)
+        public async Task OnTurn(ITurnContext context, MiddlewareSet.NextDelegate next)
         {
-            if (string.Equals(context.Request.Type, _activityType, StringComparison.InvariantCultureIgnoreCase))
+            if (string.Equals(context.Activity.Type, _activityType, StringComparison.InvariantCultureIgnoreCase))
             {
                 // if the incoming Activity type matches the type of activity we are checking for then
                 // invoke our handler

@@ -138,33 +138,33 @@ namespace GaryPretty.Bot.Builder.Middleware.Tests
         [BestMatch(new string[] { "Hi", "Hi There", "Hello there", "Hey", "Hello",
                 "Hey there", "Greetings", "Good morning", "Good afternoon", "Good evening", "Good day" },
             threshold: 0.5, ignoreCase: false, ignoreNonAlphaNumericCharacters: false)]
-        public async Task HandleGreeting(IBotContext context, string messageText, MiddlewareSet.NextDelegate next)
+        public async Task HandleGreeting(ITurnContext context, string messageText, MiddlewareSet.NextDelegate next)
         {
             await context.SendActivity("Well hello there. What can I do for you today?");
         }
 
         [BestMatch(new string[] { "how goes it", "how do", "hows it going", "how are you",
             "how do you feel", "whats up", "sup", "hows things" }, ignoreCase: false)]
-        public async Task HandleStatusRequest(IBotContext context, string messageText, MiddlewareSet.NextDelegate next)
+        public async Task HandleStatusRequest(ITurnContext context, string messageText, MiddlewareSet.NextDelegate next)
         {
             await context.SendActivity("I am great.");
         }
 
         [BestMatch(new string[] { "bye", "bye bye", "got to go",
             "see you later", "laters", "adios" })]
-        public async Task HandleGoodbye(IBotContext context, string messageText, MiddlewareSet.NextDelegate next)
+        public async Task HandleGoodbye(ITurnContext context, string messageText, MiddlewareSet.NextDelegate next)
         {
             await context.SendActivity("Bye");
             await next();
         }
 
         [BestMatch("thank you|thanks|much appreciated|thanks very much|thanking you", listDelimiter: '|')]
-        public async Task HandleThanks(IBotContext context, string messageText, MiddlewareSet.NextDelegate next)
+        public async Task HandleThanks(ITurnContext context, string messageText, MiddlewareSet.NextDelegate next)
         {
             await context.SendActivity("You're welcome.");
         }
 
-        public override async Task NoMatchHandler(IBotContext context, string messageText, MiddlewareSet.NextDelegate next)
+        public override async Task NoMatchHandler(ITurnContext context, string messageText, MiddlewareSet.NextDelegate next)
         {
             await next();
         }
