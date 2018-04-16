@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GaryPretty.Bot.Builder.Recognizers.Fuzzy;
@@ -121,6 +122,54 @@ namespace GaryPretty.Bot.Builder.Recognizers.Tests
             Assert.AreEqual(result.Matches.Count, 1, "Incorrect number of matches");
             Assert.AreEqual(result.Matches.First().Choice, "Gary Pretty", "Incorrect number of matches");
             Assert.AreEqual(result.Matches.Count(m => m.Score == 1), 1);
+        }
+
+        [TestMethod]
+        [TestCategory("Recognizers")]
+        [ExpectedException(typeof(ArgumentNullException), "A null utterance did not throw an exception")]
+
+        public async Task FuzzyRecognizer_Null_Utterance_Exception()
+        {
+            var choices = new List<string>()
+            {
+                "GARY PRETTY",
+                "Gary Pretty"
+            };
+
+            var fuzzyRecognizer = new FuzzyRecognizer(new FuzzyRecognizerOptions()
+            {
+                IgnoreCase = false
+            });
+
+            var result = await fuzzyRecognizer.Recognize(choices, null);
+        }
+
+        [TestMethod]
+        [TestCategory("Recognizers")]
+        [ExpectedException(typeof(ArgumentNullException), "A null choice list did not throw an exception")]
+
+        public async Task FuzzyRecognizer_Null_Choices_Exception()
+        {
+            var fuzzyRecognizer = new FuzzyRecognizer(new FuzzyRecognizerOptions()
+            {
+                IgnoreCase = false
+            });
+
+            var result = await fuzzyRecognizer.Recognize(null, "Gary Pretty");
+        }
+
+        [TestMethod]
+        [TestCategory("Recognizers")]
+        public async Task FuzzyRecognizer_Empty_Choices_List_Returns_Empty_Result()
+        {
+            var fuzzyRecognizer = new FuzzyRecognizer(new FuzzyRecognizerOptions()
+            {
+                IgnoreCase = false
+            });
+
+            var result = await fuzzyRecognizer.Recognize(new List<string>(), "Gary Pretty");
+
+            Assert.IsTrue(result.Matches.Count == 0);
         }
     }
 }

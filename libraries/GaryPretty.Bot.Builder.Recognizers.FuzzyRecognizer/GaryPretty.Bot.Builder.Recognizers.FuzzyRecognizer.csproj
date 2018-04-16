@@ -11,6 +11,8 @@
     <RepositoryUrl>https://github.com/garypretty/botbuilder-dotnet-extensions/</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>A fuzzy matching recognizer to allow for matching a string against one or more strings.</Description>
+    <DebugType>Full</DebugType>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

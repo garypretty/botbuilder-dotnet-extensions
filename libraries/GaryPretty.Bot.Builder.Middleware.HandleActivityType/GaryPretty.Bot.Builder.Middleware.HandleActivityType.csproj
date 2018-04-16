@@ -11,6 +11,7 @@
     <RepositoryUrl>https://github.com/garypretty/botbuilder-dotnet-extensions/</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>Middleware component for Microsoft Bot Builder v4 to allow the handling of incoming activities based on their activity type. e.g. ConversationUpdate</Description>
+    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
