@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
+    <PackageReference Include="Microsoft.Bot.Builder.Core" Version="4.0.1-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.1-preview" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+</Project>
