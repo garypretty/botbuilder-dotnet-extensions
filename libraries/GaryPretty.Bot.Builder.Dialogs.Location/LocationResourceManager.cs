@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using System.Resources;
-using GaryPretty.Bot.Builder.Dialogs.Location.Dialogs.Resources;
+using GaryPretty.Bot.Builder.Dialogs.Location.Resources;
 
 namespace GaryPretty.Bot.Builder.Dialogs.Location
 {

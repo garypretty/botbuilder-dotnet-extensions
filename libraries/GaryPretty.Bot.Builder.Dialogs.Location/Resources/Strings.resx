@@ -142,7 +142,7 @@
     <value>OK, cancelled.</value>
   </data>
   <data name="ConfirmationAsk" xml:space="preserve">
-    <value>OK, I will ship to {0}. Is that correct? Enter 'yes' or 'no'.</value>
+    <value>OK, Can you confirm that {0} is the correct address? Enter 'yes' or 'no'.</value>
   </data>
   <data name="ConfirmationInvalidResponse" xml:space="preserve">
     <value>I didn't understand. Enter 'yes' or 'no'.</value>
@@ -190,7 +190,7 @@
     <value>help</value>
   </data>
   <data name="HelpMessage" xml:space="preserve">
-    <value>Say or type a valid address when asked, and I will try to find it using Bing. You can provide the full address information (street no. / name, city, region, postal/zip code, country) or a part of it. If you want to change the address, say or type 'reset'. Finally, say or type 'cancel' to exit without providing an address.</value>
+    <value>Say or type a valid address when asked, and I will try to find it. You can provide the full address information (street no. / name, city, region, postal/zip code, country) or a part of it. If you want to change the address, say or type 'reset'. Finally, say or type 'cancel' to exit without providing an address.</value>
   </data>
   <data name="InvalidFavoriteLocationSelection" xml:space="preserve">
     <value>Sorry, "{0}” does not match a favorite location. Type or say a number/name to use a favorite location or type “other” to create a new location. Type or say “edit” or “delete” number/name to change a favorite. Say “cancel” to exit.</value>

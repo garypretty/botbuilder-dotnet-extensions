@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GaryPretty.Bot.Builder.Dialogs.Location.Dialogs.Resources {
+namespace GaryPretty.Bot.Builder.Dialogs.Location.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location.Dialogs.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GaryPretty.Bot.Builder.Location.Dialogs.Resources.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GaryPretty.Bot.Builder.Dialogs.Location.Resources.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -133,7 +133,7 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location.Dialogs.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OK, I will ship to {0}. Is that correct? Enter &apos;yes&apos; or &apos;no&apos;..
+        ///   Looks up a localized string similar to OK, Can you confirm that {0} is the correct address? Enter &apos;yes&apos; or &apos;no&apos;..
         /// </summary>
         internal static string ConfirmationAsk {
             get {
@@ -277,7 +277,7 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location.Dialogs.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Say or type a valid address when asked, and I will try to find it using Bing. You can provide the full address information (street no. / name, city, region, postal/zip code, country) or a part of it. If you want to change the address, say or type &apos;reset&apos;. Finally, say or type &apos;cancel&apos; to exit without providing an address..
+        ///   Looks up a localized string similar to Say or type a valid address when asked, and I will try to find it. You can provide the full address information (street no. / name, city, region, postal/zip code, country) or a part of it. If you want to change the address, say or type &apos;reset&apos;. Finally, say or type &apos;cancel&apos; to exit without providing an address..
         /// </summary>
         internal static string HelpMessage {
             get {

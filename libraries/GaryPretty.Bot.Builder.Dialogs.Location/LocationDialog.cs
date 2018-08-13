@@ -18,20 +18,20 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
 {
     public class LocationDialog : DialogContainer
     {
-        public const string MainDialogId = DialogIds.LocationDialog;
+        public const string MainDialogId = "LocationDialog";
 
         private const int MaxLocationCount = 5;
 
         /// <summary>Contains the IDs for the other dialogs in the set.</summary>
         private static class DialogIds
         {
-            public const string LocationDialog = "LocationDialog";
-            public const string FacebookNativeLocationRetrieverDialog = "FacebookNativeLocationRetrieverDialog";
+            public const string FavoriteLocationRetrieverDialog = "FavoriteLocationRetrieverDialog";
             public const string LocationRetrieverRichDialog = "LocationRetrieverRichDialog";
-            public static string AddToFavoritesDialog = "AddToFavoritesDialog";
-            public static string SelectAndConfirmLocation = "FindAndConfirmLocationDialog";
-            public static string HeroStartCardDialog = "HeroStartCardDialog";
-            public static string LocationRetrieverFacebookDialog = "LocationRetrieverFacebookDialog";
+            public const string AddToFavoritesDialog = "AddToFavoritesDialog";
+            public const string SelectAndConfirmLocationDialog = "FindAndConfirmLocationDialog";
+            public const string HeroStartCardDialog = "HeroStartCardDialog";
+            public const string LocationRetrieverFacebookDialog = "LocationRetrieverFacebookDialog";
+            public static string CompleteMissingRequiredFieldsDialog = "CompleteMissingRequiredFieldsDialog";
         }
 
         /// <summary>Contains the IDs for the prompts used by the dialogs.</summary>
@@ -55,7 +55,7 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
             bool useAzureMaps = true,
             LocationOptions options = LocationOptions.None,
             LocationRequiredFields requiredFields = LocationRequiredFields.None,
-            LocationResourceManager resourceManager = null) : base(DialogIds.LocationDialog)
+            LocationResourceManager resourceManager = null) : base(MainDialogId)
         {
             resourceManager = resourceManager ?? new LocationResourceManager();
             var favoritesManager = new FavoritesManager();
@@ -74,7 +74,7 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
             Dialogs.Add(Inputs.Text, new TextPrompt());
             Dialogs.Add(Inputs.Confirm, new ConfirmPrompt(Culture.English));
 
-            Dialogs.Add(DialogIds.LocationDialog, new WaterfallStep[]
+            Dialogs.Add(MainDialogId, new WaterfallStep[]
             {
                 async (dc, args, next) =>
                 {
@@ -86,13 +86,12 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
 
                         if (options.HasFlag(LocationOptions.UseNativeControl) && isFacebookChannel)
                         {
-                            await dc.Begin(DialogIds.FacebookNativeLocationRetrieverDialog);
+                            await dc.Begin(DialogIds.LocationRetrieverFacebookDialog);
                         }
                         else
                         {
                             await dc.Begin(DialogIds.LocationRetrieverRichDialog);
                         }
-
                     }
                     else
                     {
@@ -124,7 +123,7 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
                     if (args is ConfirmResult result && !result.Confirmation)
                     {
                         await dc.Context.SendActivity(resourceManager.ResetPrompt);
-                        await dc.Replace(DialogIds.LocationDialog);
+                        await dc.Replace(MainDialogId);
                     }
                     else
                     {
@@ -137,9 +136,9 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
                 async (dc, args, next) =>
                 {
                     Bing.Location selectedLocation = (Bing.Location) dc.ActiveDialog.State[Outputs.SelectedLocation];
-                    await dc.End(new Dictionary<string, object>
+                    await dc.End(new LocationDialogResult()
                     {
-                        {Outputs.SelectedLocation, CreatePlace(selectedLocation)}
+                        SelectedLocation = CreatePlace(selectedLocation)
                     });
                 }
             });
@@ -156,7 +155,7 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
 
                     if (messageText.ToLower() == resourceManager.FavoriteLocations.ToLower())
                     {
-                        await dc.Replace(DialogIds.FacebookNativeLocationRetrieverDialog);
+                        await dc.Replace(DialogIds.FavoriteLocationRetrieverDialog);
                     }
                     else if (messageText.ToLower() == resourceManager.OtherLocation.ToLower())
                     {
@@ -170,7 +169,7 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
                 }
             });
 
-            Dialogs.Add(DialogIds.FacebookNativeLocationRetrieverDialog, new WaterfallStep[]
+            Dialogs.Add(DialogIds.FavoriteLocationRetrieverDialog, new WaterfallStep[]
             {
                 async (dc, args, next) =>
                 {
@@ -216,14 +215,17 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
                         var locations = new List<Bing.Location>();
                         locations.AddRange(foundLocations.Take(MaxLocationCount));
 
-                        await dc.Begin(DialogIds.SelectAndConfirmLocation,
+                        await dc.Begin(DialogIds.SelectAndConfirmLocationDialog,
                             new Dictionary<string, object> {{Outputs.Locations, locations}});
                     }
                 },
                 async (dc, args, next) =>
                 {
                     var selectedLocation = (Bing.Location) args[Outputs.SelectedLocation];
-                    await dc.End(new Dictionary<string, object> {{Outputs.SelectedLocation, selectedLocation}});
+                    await dc.End(new Dictionary<string, object>
+                    {
+                        {Outputs.SelectedLocation, selectedLocation}
+                    });
                 }
             });
 
@@ -270,11 +272,14 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
                 async (dc, args, next) =>
                 {
                     var selectedLocation = (Bing.Location) args[Outputs.SelectedLocation];
-                    await dc.End(new Dictionary<string, object> {{Outputs.SelectedLocation, selectedLocation}});
+                    await dc.End(new Dictionary<string, object>
+                    {
+                        {Outputs.SelectedLocation, selectedLocation}
+                    });
                 }
             });
 
-            Dialogs.Add(DialogIds.SelectAndConfirmLocation, new WaterfallStep[]
+            Dialogs.Add(DialogIds.SelectAndConfirmLocationDialog, new WaterfallStep[]
             {
                 async (dc, args, next) =>
                 {
@@ -319,11 +324,7 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
                                 });
                             }
 
-                            // HERE WE SHOULD BE GETTING ADDITIONAL REQUIRED FIELDS
-                            await dc.End(new Dictionary<string, object>
-                            {
-                                {Outputs.SelectedLocation, locations.First()}
-                            });
+                            await dc.Replace(DialogIds.CompleteMissingRequiredFieldsDialog, dc.ActiveDialog.State);
                         }
                         else
                         {
@@ -347,11 +348,7 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
                             }
                             else
                             {
-                                // HERE WE SHOULD BE GETTING ADDITIONAL REQUIRED FIELDS
-                                await dc.End(new Dictionary<string, object>
-                                {
-                                    {Outputs.SelectedLocation, locations[value - 1]}
-                                });
+                                await dc.Replace(DialogIds.CompleteMissingRequiredFieldsDialog, dc.ActiveDialog.State);
                             }
                         }
                         else if (StringComparer.OrdinalIgnoreCase.Equals(message, resourceManager.OtherComand))
@@ -361,9 +358,92 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
                         else
                         {
                             await dc.Context.SendActivity(resourceManager.InvalidLocationResponse);
-                            await dc.Replace(DialogIds.SelectAndConfirmLocation, dc.ActiveDialog.State);
+                            await dc.Replace(DialogIds.SelectAndConfirmLocationDialog, dc.ActiveDialog.State);
                         }
                     }
+                }
+            });
+
+            Dialogs.Add(DialogIds.CompleteMissingRequiredFieldsDialog, new WaterfallStep[]
+            {
+                async (dc, args, next) =>
+                {
+                    Bing.Location selectedLocation;
+                    if (args.ContainsKey(Outputs.SelectedLocation))
+                    {
+                        selectedLocation = (Bing.Location) args[Outputs.SelectedLocation];
+                    }
+                    else
+                    {
+                        selectedLocation = ((List<Bing.Location>) args[Outputs.Locations]).First();
+                    }
+
+                    dc.ActiveDialog.State[Outputs.SelectedLocation] = selectedLocation;
+
+                    if (requiredFields.HasFlag(LocationRequiredFields.StreetAddress) &&
+                        string.IsNullOrEmpty(selectedLocation.Address.AddressLine))
+                    {
+                        await PromptForRequiredField(dc, LocationRequiredFields.StreetAddress,
+                            resourceManager.StreetAddress, resourceManager, selectedLocation);
+                    }
+                    else if (requiredFields.HasFlag(LocationRequiredFields.Locality) &&
+                             string.IsNullOrEmpty(selectedLocation.Address.Locality))
+                    {
+                        await PromptForRequiredField(dc, LocationRequiredFields.Locality, resourceManager.Locality,
+                            resourceManager, selectedLocation);
+                    }
+                    else if (requiredFields.HasFlag(LocationRequiredFields.Region) &&
+                             string.IsNullOrEmpty(selectedLocation.Address.AdminDistrict))
+                    {
+                        await PromptForRequiredField(dc, LocationRequiredFields.Region, resourceManager.Region,
+                            resourceManager, selectedLocation);
+                    }
+                    else if (requiredFields.HasFlag(LocationRequiredFields.PostalCode) &&
+                             string.IsNullOrEmpty(selectedLocation.Address.PostalCode))
+                    {
+                        await PromptForRequiredField(dc, LocationRequiredFields.PostalCode,
+                            resourceManager.PostalCode, resourceManager, selectedLocation);
+                    }
+                    else if (requiredFields.HasFlag(LocationRequiredFields.Country) &&
+                             string.IsNullOrEmpty(selectedLocation.Address.CountryRegion))
+                    {
+                        await PromptForRequiredField(dc, LocationRequiredFields.Country, resourceManager.Country,
+                            resourceManager, selectedLocation);
+                    }
+                    else
+                    {
+                        await dc.End(new Dictionary<string, object>
+                        {
+                            {Outputs.SelectedLocation, selectedLocation}
+                        });
+                    }
+                },
+                async (dc, args, next) =>
+                {
+                    var selectedLocation = (Bing.Location) dc.ActiveDialog.State[Outputs.SelectedLocation];
+
+                    switch ((LocationRequiredFields)dc.ActiveDialog.State["CurrentMissingRequiredField"])
+                    {
+                        case LocationRequiredFields.StreetAddress:
+                            selectedLocation.Address.AddressLine = ((TextResult) args).Text;
+                            break;
+                        case LocationRequiredFields.Locality:
+                            selectedLocation.Address.Locality = ((TextResult) args).Text;
+                            break;
+                        case LocationRequiredFields.Region:
+                            selectedLocation.Address.AdminDistrict = ((TextResult) args).Text;
+                            break;
+                        case LocationRequiredFields.PostalCode:
+                            selectedLocation.Address.PostalCode = ((TextResult) args).Text;
+                            break;
+                        case LocationRequiredFields.Country:
+                            selectedLocation.Address.CountryRegion = ((TextResult) args).Text;
+                            break;
+                    }
+
+                    dc.ActiveDialog.State[Outputs.SelectedLocation] = selectedLocation;
+
+                    await dc.Replace(DialogIds.CompleteMissingRequiredFieldsDialog, dc.ActiveDialog.State);
                 }
             });
 
@@ -387,7 +467,10 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
                         if (await favoritesManager.MaxCapacityReached(dc.Context)
                             || await favoritesManager.IsFavorite(dc.Context, selectedLocation))
                         {
-                            await dc.End();
+                            await dc.End(new Dictionary<string, object>
+                            {
+                                {Outputs.SelectedLocation, selectedLocation}
+                            });
                         }
                         else
                         {
@@ -417,7 +500,12 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
                     }
                     else
                     {
-                        await dc.End();
+                        var selectedLocation =
+                            (Bing.Location) dc.ActiveDialog.State[Outputs.SelectedLocation];
+                        await dc.End(new Dictionary<string, object>
+                        {
+                            {Outputs.SelectedLocation, selectedLocation}
+                        });
                     }
                 },
                 async (dc, args, next) =>
@@ -438,10 +526,24 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
                             new FavoriteLocation {Location = selectedLocation, Name = newFavoriteName});
                         await dc.Context.SendActivity(string.Format(resourceManager.FavoriteAddedConfirmation,
                             newFavoriteName));
-                        await dc.End();
+                        await dc.End(new Dictionary<string, object>
+                        {
+                            {Outputs.SelectedLocation, selectedLocation}
+                        });
                     }
                 }
             });
+        }
+
+        private static async Task PromptForRequiredField(DialogContext dc, LocationRequiredFields requiredField, string requiredFieldPrompt, LocationResourceManager resourceManager, 
+            Bing.Location selectedLocation)
+        {
+            var formattedAddress = selectedLocation.GetFormattedAddress(resourceManager.AddressSeparator);
+
+            dc.ActiveDialog.State["CurrentMissingRequiredField"] = requiredField;
+            await dc.Prompt(Inputs.Text, string.Format(resourceManager.AskForPrefix, formattedAddress) +
+                                         string.Format(resourceManager.AskForTemplate,
+                                             requiredFieldPrompt));
         }
 
         private IMessageActivity CreateFavoritesCarousel(ITurnContext context, ILocationCardBuilder cardBuilder, List<FavoriteLocation> locations)
@@ -542,3 +644,4 @@ namespace GaryPretty.Bot.Builder.Dialogs.Location
         }
     }
 }
+
