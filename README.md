@@ -1,4 +1,4 @@
-** Please note that the extensions in this repository are now part of the [Bot Builder Community Project](https://www.github.com/garypretty/botbuilder-community) - please see that repo for future updates, raising issues and contributing **
+**Please note that the extensions in this repository are now part of the [Bot Builder Community Project](https://www.github.com/garypretty/botbuilder-community) - please see that repo for future updates, raising issues and contributing**
 
 # Bot Builder Extensions for Bot Builder v4 SDK
 
